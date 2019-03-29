@@ -8,7 +8,7 @@ import (
 
 	"github.com/codegangsta/cli"
 
-	"github.com/yudai/gotty/app"
+	"./app"
 )
 
 func main() {
@@ -25,6 +25,7 @@ func main() {
 		flag{"credential", "c", "Credential for Basic Authentication (ex: user:pass, default disabled)"},
 		flag{"random-url", "r", "Add a random string to the URL"},
 		flag{"random-url-length", "", "Random URL length"},
+		flag{"specific-url", "s", "Use a specific string for the URL"},
 		flag{"tls", "t", "Enable TLS/SSL"},
 		flag{"tls-crt", "", "TLS/SSL certificate file path"},
 		flag{"tls-key", "", "TLS/SSL key file path"},
@@ -43,13 +44,14 @@ func main() {
 	}
 
 	mappingHint := map[string]string{
-		"index":      "IndexFile",
-		"tls":        "EnableTLS",
-		"tls-crt":    "TLSCrtFile",
-		"tls-key":    "TLSKeyFile",
-		"tls-ca-crt": "TLSCACrtFile",
-		"random-url": "EnableRandomUrl",
-		"reconnect":  "EnableReconnect",
+		"index":        "IndexFile",
+		"tls":          "EnableTLS",
+		"tls-crt":      "TLSCrtFile",
+		"tls-key":      "TLSKeyFile",
+		"tls-ca-crt":   "TLSCACrtFile",
+		"random-url":   "EnableRandomUrl",
+		"specific-url": "SpecificUrl",
+		"reconnect":    "EnableReconnect",
 	}
 
 	cliFlags, err := generateFlags(flags, mappingHint)

@@ -23,7 +23,7 @@ import (
 	"time"
 
 	"github.com/braintree/manners"
-	"github.com/elazarl/go-bindata-assetfs"
+	assetfs "github.com/elazarl/go-bindata-assetfs"
 	"github.com/gorilla/websocket"
 	"github.com/kr/pty"
 	"github.com/yudai/hcl"
@@ -60,6 +60,7 @@ type Options struct {
 	Credential          string                 `hcl:"credential"`
 	EnableRandomUrl     bool                   `hcl:"enable_random_url"`
 	RandomUrlLength     int                    `hcl:"random_url_length"`
+	SpecificUrl         string                 `hcl:"specific_url"`
 	IndexFile           string                 `hcl:"index_file"`
 	EnableTLS           bool                   `hcl:"enable_tls"`
 	TLSCrtFile          string                 `hcl:"tls_crt_file"`
@@ -90,6 +91,7 @@ var DefaultOptions = Options{
 	Credential:          "",
 	EnableRandomUrl:     false,
 	RandomUrlLength:     8,
+	SpecificUrl:         "",
 	IndexFile:           "",
 	EnableTLS:           false,
 	TLSCrtFile:          "~/.gotty.crt",
@@ -171,6 +173,8 @@ func (app *App) Run() error {
 	path := ""
 	if app.options.EnableRandomUrl {
 		path += "/" + generateRandomString(app.options.RandomUrlLength)
+	} else if app.options.SpecificUrl != "" {
+		path += "/" + app.options.SpecificUrl
 	}
 
 	endpoint := net.JoinHostPort(app.options.Address, app.options.Port)
